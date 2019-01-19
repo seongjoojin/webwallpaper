@@ -41,7 +41,6 @@ function initUnsplash() {
 
 function loadBackground() {
   const savedImage = window.localStorage.getItem("bg");
-  console.log(savedImage);
   if (savedImage === null) {
     getBackground();
   } else {
@@ -91,17 +90,18 @@ function removeBackgroundImage() {
 
 function rotateBackgroundImage() {
   let bgIndex = Number(window.localStorage.getItem("bgIndex"));
+  console.log(typeof bgIndex);
   const savedImage = window.localStorage.getItem("bg");
   const myImageArray = JSON.parse(savedImage).myImages;
   let currentBG = document.getElementById(`bg${bgIndex}`);
+  console.log(currentBG);
   currentBG.classList.remove("visible");
   currentBG.classList.add("invisible");
   bgIndex++;
-  window.localStorage.setItem("bgIndex", bgIndex.toString());
   if (bgIndex >= myImageArray.length) {
     bgIndex = 0;
-    window.localStorage.setItem("bgIndex", bgIndex.toString());
   }
+  window.localStorage.setItem("bgIndex", bgIndex.toString());
 }
 
 function reverseRotateBackgroundImage() {
@@ -112,12 +112,10 @@ function reverseRotateBackgroundImage() {
   currentBG.classList.remove("visible");
   currentBG.classList.add("invisible");
   bgIndex--;
-  window.localStorage.setItem("bgIndex", bgIndex.toString());
-  console.log(bgIndex);
   if (bgIndex < 0) {
     bgIndex = myImageArray.length - 1;
-    window.localStorage.setItem("bgIndex", bgIndex.toString());
   }
+  window.localStorage.setItem("bgIndex", bgIndex.toString());
 }
 
 function saveBackground(imageUrl, city, country, name) {
@@ -151,7 +149,6 @@ function getBackground() {
     .getRandomPhoto({ orientation: "landscape", count: 5 })
     .then(toJson)
     .then(json => {
-      console.log(json);
       const image = json;
       if (image.urls && image.urls.full && image.location) {
         const fullUrl = image.urls.full;
